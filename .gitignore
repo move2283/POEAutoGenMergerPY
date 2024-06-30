@@ -1,0 +1,88 @@
+# 适用于所有项目的通用忽略规则
+
+# 操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 日志文件和临时文件
+*.log
+*.tmp
+*.swp
+*.swo
+logs/
+
+# 忽略编译输出
+*.o
+*.obj
+*.pyc
+*.pyo
+*.class
+
+# IDE/编辑器配置文件
+# 忽略 JetBrains IDE (IntelliJ, PyCharm, etc.) 生成的文件
+.idea/
+# 忽略 Visual Studio Code 生成的文件
+.vscode/
+.venv/
+
+# 忽略 Sublime Text 生成的文件
+*.sublime-project
+*.sublime-workspace
+
+# 语言相关忽略规则
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnp.*
+.pnp.js
+
+# Python
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# Java
+*.war
+*.ear
+*.jar
+target/
+out/
+
+# Ruby
+*.gem
+*.rbc
+vendor/bundle/
+
+# PHP
+vendor/
+composer.lock
+
+# Go
+bin/
+pkg/
+*.exe
+
+# C/C++
+*.obj
+*.exe
+*.out
+*.so
+*.dll
+*.dSYM
+*.dylib
+
+# Rust
+target/
+
+# .NET
+bin/
+obj/
+*.exe
+*.dll
+
+# 忽略环境配置文件
+.env
+.env.local
+.env.*.local
