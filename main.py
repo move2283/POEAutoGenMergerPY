@@ -52,7 +52,7 @@ def consolidate_responses():
     # 问题清单，使得问题更加均衡有针对性。
     # """
 
-    ask_once(question_input, "https://poe.com/GPT-4-Turbo")
+    ask_once(question_input, "https://poe.com/Assistant")
 
 
 def ask_once(text, link):
@@ -83,6 +83,48 @@ def ask_once(text, link):
     # 粘贴剪贴板内容 (链接)
     keyboard.press_and_release('ctrl+v')
     logging.info('从剪贴板中粘贴链接')
+
+    # 按下回车
+    keyboard.press_and_release('enter')
+    logging.info('按下回车')
+
+    # 等待3秒
+    time.sleep(3)
+
+    # 按下 Tab
+    keyboard.press_and_release('tab')
+    logging.info('按下 Tab')
+
+    # 按下 Shift+Tab
+    keyboard.press_and_release('shift+tab')
+    logging.info('按下 Shift+Tab')
+
+    # 等待1秒
+    time.sleep(1)
+
+    # 将问题文本放到剪贴板
+    pyperclip.copy(text)
+    logging.info('将问题文本复制到剪贴板')
+
+    # 粘贴剪贴板内容 (问题文本)
+    keyboard.press_and_release('ctrl+v')
+    logging.info('从剪贴板中粘贴问题文本')
+
+    # 等待1秒
+    time.sleep(1)
+
+    # 按下 Tab 三次
+    for _ in range(3):
+        keyboard.press_and_release('tab')
+        logging.info('按下 Tab')
+
+    # 按下回车
+    keyboard.press_and_release('enter')
+    logging.info('按下回车')
+
+    # 等待60秒
+    time.sleep(60)
+    logging.info('等待60秒')
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
