@@ -55,76 +55,50 @@ def consolidate_responses():
     ask_once(question_input, "https://poe.com/Assistant")
 
 
+def wait_for_keys_release(keys):
+    "等待所有按键是否都已经松开"
+    while any(keyboard.is_pressed(key) for key in keys):
+        logging.info('等待所有按键被释放')
+        time.sleep(0.1)
+
+def press_keys_with_logging(keys, log_message, delay=0):
+    "按下按键并记录日志"
+    keyboard.press_and_release(keys)
+    logging.info(log_message)
+    if delay > 0:
+        time.sleep(delay)
+
+def copy_to_clipboard(text, log_message):
+    "将文本复制到剪贴板并记录日志"
+    pyperclip.copy(text)
+    logging.info(log_message)
+
 def ask_once(text, link):
     """
     模拟按键操作函数
     :param text: 提问的文本
     :param link: 链接
     """
-    # Log the time when the function is called
     logging.info("函数 ask_once 被执行")
 
-    # 检测所有按键是否都已经松开
-    while any(keyboard.is_pressed(key) for key in keyboard.all_modifiers):
-        logging.info('等待所有按键被释放')
-        time.sleep(0.1)
+    wait_for_keys_release(keyboard.all_modifiers)
 
-    # 按下 Ctrl+L (聚焦地址栏)
-    keyboard.press_and_release('ctrl+l')
-    logging.info('按下 Ctrl+L')
+    press_keys_with_logging('ctrl+l', '按下 Ctrl+L', delay=1)
 
-    # 等待1秒
-    time.sleep(1)
+    copy_to_clipboard(link, '复制链接到剪贴板')
+    press_keys_with_logging('ctrl+v', '从剪贴板中粘贴链接')
+    press_keys_with_logging('enter', '按下回车', delay=3)
 
-    # 将链接放到剪贴板
-    pyperclip.copy(link)
-    logging.info('复制到剪贴板')
+    press_keys_with_logging('tab', '按下 Tab')
+    press_keys_with_logging('shift+tab', '按下 Shift+Tab', delay=1)
 
-    # 粘贴剪贴板内容 (链接)
-    keyboard.press_and_release('ctrl+v')
-    logging.info('从剪贴板中粘贴链接')
+    copy_to_clipboard(text, '将问题文本复制到剪贴板')
+    press_keys_with_logging('ctrl+v', '从剪贴板中粘贴问题文本', delay=1)
 
-    # 按下回车
-    keyboard.press_and_release('enter')
-    logging.info('按下回车')
-
-    # 等待3秒
-    time.sleep(3)
-
-    # 按下 Tab
-    keyboard.press_and_release('tab')
-    logging.info('按下 Tab')
-
-    # 按下 Shift+Tab
-    keyboard.press_and_release('shift+tab')
-    logging.info('按下 Shift+Tab')
-
-    # 等待1秒
-    time.sleep(1)
-
-    # 将问题文本放到剪贴板
-    pyperclip.copy(text)
-    logging.info('将问题文本复制到剪贴板')
-
-    # 粘贴剪贴板内容 (问题文本)
-    keyboard.press_and_release('ctrl+v')
-    logging.info('从剪贴板中粘贴问题文本')
-
-    # 等待1秒
-    time.sleep(1)
-
-    # 按下 Tab 三次
     for _ in range(3):
-        keyboard.press_and_release('tab')
-        logging.info('按下 Tab')
+        press_keys_with_logging('tab', '按下 Tab', delay=0.1)
 
-    # 按下回车
-    keyboard.press_and_release('enter')
-    logging.info('按下回车')
-
-    # 等待60秒
-    time.sleep(60)
-    logging.info('等待60秒')
+    press_keys_with_logging('enter', '按下回车', delay=60)
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
