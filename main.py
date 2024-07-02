@@ -2,6 +2,7 @@
 键盘监听程序
 """
 import logging
+import time
 from datetime import datetime
 import keyboard
 import pyperclip
@@ -50,6 +51,38 @@ def consolidate_responses():
     # 不够均衡，可能问题的针对性不够。请综合三份问题清单，整合出一份更加合适的包含十个问题的
     # 问题清单，使得问题更加均衡有针对性。
     # """
+
+    ask_once(question_input, "https://poe.com/GPT-4-Turbo")
+
+
+def ask_once(text, link):
+    """
+    模拟按键操作函数
+    :param text: 提问的文本
+    :param link: 链接
+    """
+    # Log the time when the function is called
+    logging.info("%s: Function ask_once called", datetime.now())
+
+    # 检测所有按键是否都已经松开
+    while any(keyboard.is_pressed(key) for key in keyboard.all_modifiers):
+        logging.info('%s: Waiting for all keys to be released', datetime.now())
+        time.sleep(0.1)
+
+    # 按下 Ctrl+L (聚焦地址栏)
+    keyboard.press_and_release('ctrl+l')
+    logging.info('%s: Pressed Ctrl+L', datetime.now())
+
+    # 等待1秒
+    time.sleep(1)
+
+    # 将链接放到剪贴板
+    pyperclip.copy(link)
+    logging.info('%s: Copied link to clipboard', datetime.now())
+
+    # 粘贴剪贴板内容 (链接)
+    keyboard.press_and_release('ctrl+v')
+    logging.info('%s: Pasted link from clipboard', datetime.now())
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
