@@ -22,14 +22,14 @@ def consolidate_responses():
     """
     当快捷键 ctrl + win + a 被按下时执行的回调函数
     """
-    logging.info("Hotkey ctrl + win + a was pressed")
-    print("Hotkey ctrl + win + a was pressed")
+    logging.info("热键 ctrl + win + a 被按下")
+    print("热键 ctrl + win + a 被按下")
 
     # 从剪贴板中获取所有文本保存到question_input变量中
     # 从剪贴板中获取所有文本保存到question_input变量中
     question_input = pyperclip.paste()
-    logging.info("Text from clipboard: %s", question_input)
-    print(f"Text from clipboard: {question_input}")
+    logging.info("从剪贴板中获取文字: %s", question_input)
+    print(f"从剪贴板中获取文字: {question_input}")
 
     text0 = """
     给定三份关于同一主题的文本,每份文本都可能包含一些事实错误或表述不清的地方。
@@ -62,27 +62,27 @@ def ask_once(text, link):
     :param link: 链接
     """
     # Log the time when the function is called
-    logging.info("%s: Function ask_once called", datetime.now())
+    logging.info("函数 ask_once 被执行")
 
     # 检测所有按键是否都已经松开
     while any(keyboard.is_pressed(key) for key in keyboard.all_modifiers):
-        logging.info('%s: Waiting for all keys to be released', datetime.now())
+        logging.info('等待所有按键被释放')
         time.sleep(0.1)
 
     # 按下 Ctrl+L (聚焦地址栏)
     keyboard.press_and_release('ctrl+l')
-    logging.info('%s: Pressed Ctrl+L', datetime.now())
+    logging.info('按下 Ctrl+L')
 
     # 等待1秒
     time.sleep(1)
 
     # 将链接放到剪贴板
     pyperclip.copy(link)
-    logging.info('%s: Copied link to clipboard', datetime.now())
+    logging.info('复制到剪贴板')
 
     # 粘贴剪贴板内容 (链接)
     keyboard.press_and_release('ctrl+v')
-    logging.info('%s: Pasted link from clipboard', datetime.now())
+    logging.info('从剪贴板中粘贴链接')
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
