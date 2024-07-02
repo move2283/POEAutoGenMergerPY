@@ -9,16 +9,16 @@ logging.basicConfig(
     filename="logs/key_log.log", level=logging.DEBUG, format="%(asctime)s: %(message)s"
 )
 
-
-def on_key_event(event):
+# 监听快捷键 ctrl + win + a，并执行回调函数
+def consolidate_responses():
     """
-    键盘事件回调函数
+    当快捷键 ctrl + win + a 被按下时执行的回调函数
     """
-    # 记录按键事件
-    logging.info("Key %s was %s", event.name, event.event_type)
+    logging.info("Hotkey ctrl + win + a was pressed")
+    print("Hotkey ctrl + win + a was pressed")
 
-# 启动键盘监听
-keyboard.hook(on_key_event)
+# 监听快捷键 ctrl + win + a，并执行回调函数
+keyboard.add_hotkey("ctrl+win+a", consolidate_responses)
 
 # 保持程序运行
 print("键盘监听已启动。按下 ESC 键退出。")
