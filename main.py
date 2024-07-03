@@ -144,9 +144,10 @@ def multi_query_handler_fast(question_input, text0, wait_time):
 
 def wait_for_keys_release(keys):
     "等待所有按键是否都已经松开"
-    while any(keyboard.is_pressed(key) for key in keys):
-        logging.info("等待所有按键被释放")
-        time.sleep(0.1)
+    # while any(keyboard.is_pressed(key) for key in keys):
+    #     logging.info("等待所有按键被释放")
+    #     time.sleep(0.1)
+    time.sleep(1)
 
 
 def press_keys_with_logging(keys, log_message, delay=0):
@@ -226,13 +227,13 @@ def get_text():
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
-keyboard.add_hotkey("ctrl+win+a", consolidate_responses_knowledge)
+keyboard.add_hotkey("ctrl+alt+a", consolidate_responses_knowledge)
 
 # 生成问题
-keyboard.add_hotkey("ctrl+win+b", consolidate_responses_question)
+keyboard.add_hotkey("ctrl+alt+b", consolidate_responses_question)
 
 # 使用 gpt-4o 快速提问
-keyboard.add_hotkey("ctrl+win+c", consolidate_responses_fast)
+keyboard.add_hotkey("ctrl+alt+c", consolidate_responses_fast)
 
 
 # 保持程序运行
