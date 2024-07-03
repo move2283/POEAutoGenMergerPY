@@ -4,6 +4,7 @@
 
 import logging
 import time
+import os
 from datetime import datetime
 
 import keyboard
@@ -11,6 +12,9 @@ import pyperclip
 
 # 获取当前时间，并格式化为字符串
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# 创建logs文件夹（如果不存在）
+os.makedirs("logs", exist_ok=True)
 
 # 配置日志记录
 logging.basicConfig(
