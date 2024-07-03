@@ -1,3 +1,14 @@
 AutoHotKey 风格的Python自动化提问整合程序。
 
 使用键盘按键的方式进行提问以及获取文本，比如使用ctrl v来输入链接和提问文本，回车来提问，使用ctrl a 来获取全部文本，提取出回答的文本。
+
+在linux系统中，需要使用root权限运行，比如：`sudo .venv/bin/python main.py`
+
+用法：
+
+- 复制要提问的问题 （python从剪贴板中获取问题）
+- 然后按 ctrl alt c （或者 ctrl alt a 或者自己修改）
+
+目前 ctrl alt a 是两次gpt-4，一次claude-3-opus，然后使用 claude-3-opus整合
+ctrl alt b 是生成问题
+ctrl alt c 是两次gpt-4o，然后用 gpt-4o整合。
