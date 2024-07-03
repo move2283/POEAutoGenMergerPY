@@ -1,9 +1,11 @@
 """
 键盘监听程序
 """
+
 import logging
 import time
 from datetime import datetime
+
 import keyboard
 import pyperclip
 
@@ -14,8 +16,9 @@ current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 logging.basicConfig(
     filename=f"logs/{current_time}.log",
     level=logging.DEBUG,
-    format="%(asctime)s: %(message)s"
+    format="%(asctime)s: %(message)s",
 )
+
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
 def consolidate_responses():
@@ -25,7 +28,6 @@ def consolidate_responses():
     logging.info("热键 ctrl + win + a 被按下")
     print("热键 ctrl + win + a 被按下")
 
-    # 从剪贴板中获取所有文本保存到question_input变量中
     # 从剪贴板中获取所有文本保存到question_input变量中
     question_input = pyperclip.paste()
     logging.info("从剪贴板中获取文字: %s", question_input)
@@ -53,13 +55,33 @@ def consolidate_responses():
     # """
 
     ask_once(question_input, "https://poe.com/Assistant")
+    text_1 = get_text()
+    ask_once(question_input, "https://poe.com/Assistant")
+    text_2 = get_text()
+    ask_once(question_input, "https://poe.com/Assistant")
+    text_3 = get_text()
+
+    final_question = (
+        text0
+        + "\n"
+        + question_input
+        + "\n 回答1 \n"
+        + text_1
+        + "\n 回答2 \n"
+        + text_2
+        + "\n 回答3 \n"
+        + text_3
+    )
+
+    ask_once(final_question, "https://poe.com/Assistant")
 
 
 def wait_for_keys_release(keys):
     "等待所有按键是否都已经松开"
     while any(keyboard.is_pressed(key) for key in keys):
-        logging.info('等待所有按键被释放')
+        logging.info("等待所有按键被释放")
         time.sleep(0.1)
+
 
 def press_keys_with_logging(keys, log_message, delay=0):
     "按下按键并记录日志"
@@ -68,10 +90,12 @@ def press_keys_with_logging(keys, log_message, delay=0):
     if delay > 0:
         time.sleep(delay)
 
+
 def copy_to_clipboard(text, log_message):
     "将文本复制到剪贴板并记录日志"
     pyperclip.copy(text)
     logging.info(log_message)
+
 
 def ask_once(text, link):
     """
@@ -80,25 +104,59 @@ def ask_once(text, link):
     :param link: 链接
     """
     logging.info("函数 ask_once 被执行")
+    print("开始提问")
 
     wait_for_keys_release(keyboard.all_modifiers)
 
-    press_keys_with_logging('ctrl+l', '按下 Ctrl+L', delay=1)
+    press_keys_with_logging("ctrl+l", "按下 Ctrl+L", delay=1)
 
-    copy_to_clipboard(link, '复制链接到剪贴板')
-    press_keys_with_logging('ctrl+v', '从剪贴板中粘贴链接')
-    press_keys_with_logging('enter', '按下回车', delay=3)
+    copy_to_clipboard(link, "复制链接到剪贴板")
+    press_keys_with_logging("ctrl+v", "从剪贴板中粘贴链接", delay=0.1)
+    press_keys_with_logging("enter", "按下回车", delay=3)
 
-    press_keys_with_logging('tab', '按下 Tab')
-    press_keys_with_logging('shift+tab', '按下 Shift+Tab', delay=1)
+    press_keys_with_logging("tab", "按下 Tab")
+    press_keys_with_logging("shift+tab", "按下 Shift+Tab", delay=1)
 
-    copy_to_clipboard(text, '将问题文本复制到剪贴板')
-    press_keys_with_logging('ctrl+v', '从剪贴板中粘贴问题文本', delay=1)
+    copy_to_clipboard(text, "将问题文本复制到剪贴板")
+    press_keys_with_logging("ctrl+v", "从剪贴板中粘贴问题文本", delay=1)
 
     for _ in range(3):
-        press_keys_with_logging('tab', '按下 Tab', delay=0.1)
+        press_keys_with_logging("tab", "按下 Tab", delay=0.1)
 
-    press_keys_with_logging('enter', '按下回车', delay=60)
+    print("等待生成中...")
+    press_keys_with_logging("enter", "按下回车", delay=10)
+    print("等待结束。")
+
+
+def get_text():
+    """
+    获取生成的文本
+    """
+    press_keys_with_logging("shift+tab", "按下 Shift+Tab", delay=1)
+    press_keys_with_logging("ctrl+a", "全选", delay=1)
+    press_keys_with_logging("ctrl+c", "复制生成的全部内容", delay=1)
+    str_origin = pyperclip.paste()
+    logging.info("复制文本：\n%s", str_origin)
+
+    char_start_flag_1 = "\nPoe"
+    char_end_flag = "\n分享"
+    pos_start_flag_1 = str_origin.rfind(char_start_flag_1) + len(char_start_flag_1)
+    logging.info(
+        "char_start_flag_1 '%s' 最后一次出现的位置: %s",
+        char_start_flag_1,
+        pos_start_flag_1,
+    )
+
+    pos_end_flag = str_origin.rfind(char_end_flag)
+    logging.info(
+        "char_end_flag '%s' 最后一次出现的位置: %s", char_end_flag, pos_end_flag
+    )
+
+    extracted_text = str_origin[pos_start_flag_1:pos_end_flag]
+    logging.info("提取的文本: %s", extracted_text)
+    print(f"获取到文本：\n{extracted_text}")
+
+    return extracted_text
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
