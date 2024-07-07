@@ -3,8 +3,8 @@
 """
 
 import logging
-import time
 import os
+import time
 from datetime import datetime
 
 import keyboard
@@ -137,7 +137,7 @@ def multi_query_handler_fast(question_input, text0, wait_time):
     """
     ask_once(question_input, "https://poe.com/GPT-4o", wait_time)
     text_1 = get_text()
-    ask_once(question_input, "https://poe.com/GPT-4o", wait_time)
+    ask_once(question_input, "https://poe.com/GPT-4-Turbo", 60)
     text_2 = get_text()
     final_question = (
         text0 + "\n" + question_input + "\n 回答1 \n" + text_1 + "\n 回答2 \n" + text_2
@@ -231,13 +231,13 @@ def get_text():
 
 
 # 监听快捷键 ctrl + win + a，并执行回调函数
-keyboard.add_hotkey("ctrl+alt+a", consolidate_responses_knowledge)
+keyboard.add_hotkey("shift+alt+a", consolidate_responses_knowledge)
 
 # 生成问题
-keyboard.add_hotkey("ctrl+alt+b", consolidate_responses_question)
+keyboard.add_hotkey("shift+alt+b", consolidate_responses_question)
 
 # 使用 gpt-4o 快速提问
-keyboard.add_hotkey("ctrl+alt+c", consolidate_responses_fast)
+keyboard.add_hotkey("shift+alt+c", consolidate_responses_fast)
 
 
 # 保持程序运行
